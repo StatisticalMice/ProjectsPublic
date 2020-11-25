@@ -1,4 +1,4 @@
-For Python, use the virtual environment in Projects.
+For Python, use the following virtual environment
 
-source ../Projects/projects-env/bin/activate
+source /Volumes/MyFiles/Python-env/bin/activate
 
