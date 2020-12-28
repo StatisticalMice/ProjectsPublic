@@ -1,0 +1,6 @@
+[deps]
+Arrow = "69666777-d1a9-59fb-9406-91d4454c9d45"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Humanize = "7ec9b9c5-1998-51e1-b7fc-fc3590c18259"
+Parquet = "626c502c-15b0-58ad-a749-f091afb673ae"
+StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
