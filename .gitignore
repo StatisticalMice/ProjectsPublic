@@ -6,3 +6,7 @@
 projects-env/
 .ipynb_checkpoints/
 
+.bash_history
+.ipython/
+.jupyter/
+.local/
