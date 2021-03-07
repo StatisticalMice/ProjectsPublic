@@ -25,8 +25,14 @@ begin
 	using PlutoUI
 end
 
-# ╔═╡ 72e3b378-7e58-11eb-3e49-3db713096a4b
-#Pkg.add("Compose")
+# ╔═╡ 8fb3c19c-7f29-11eb-2182-838bb637b692
+begin
+	gr()
+	plot_size_square = (300,300)
+	plot_size_wide = (500,300)
+	plot_size_extra_wide = (650,160)
+	md"""plot() backend and plot sizes"""
+end
 
 # ╔═╡ ee5d052e-7e56-11eb-027b-4fabef79280f
 begin
@@ -34,7 +40,7 @@ begin
 		filename = download(url)
 		global philip = load(filename)
 	end
-	plot(philip, xmirror=true, title = "philip")
+	plot(philip, xmirror=true, title = "philip", size=plot_size_square)
 end
 
 # ╔═╡ edbc990e-7e56-11eb-0474-9bb39c422857
@@ -43,26 +49,35 @@ begin
 		filename = download(url)
 		global al_capone_cell = load(filename)
 	end
-	plot(al_capone_cell, xmirror=true, title="al_capone_cell")
+	plot(al_capone_cell, xmirror=true, title="al_capone_cell",
+		size=plot_size_wide)
 end
 
-# ╔═╡ c24665a0-7e6c-11eb-35c6-5dac55cd350f
+# ╔═╡ dfa85a32-7f29-11eb-15fd-d721f16c91c4
+md"""wheel1 / wheel2 / wheel3 = """
+
+# ╔═╡ 3e5fd976-7f2a-11eb-2de1-a5f4bde52828
 begin
-	url = "https://mars.nasa.gov/system/downloadable_items/45785_3-PIA24340-NavCam-Left.gif" 
-	filename = download(url)
-	perseverance_wheel_turning = load(filename)
-	l = @layout [a b c]
-	p1 = Plots.plot(perseverance_wheel_turning[:,:,1], xmirror=true)
-	p2 = Plots.plot(perseverance_wheel_turning[:,:,2], xmirror=true)
-	p3 = Plots.plot(perseverance_wheel_turning[:,:,3], xmirror=true)
-	plot(p1, p2, p3, layout = l)
+	let url = "https://mars.nasa.gov/system/downloadable_items/45785_3-PIA24340-NavCam-Left.gif" 
+		filename = download(url)
+		perseverance_wheel_turning = load(filename)
+		global wheel1 = perseverance_wheel_turning[:,:,1]
+		global wheel2 = perseverance_wheel_turning[:,:,2]
+		global wheel3 = perseverance_wheel_turning[:,:,3]
+	end		
+	plot_layout_abc = @layout [a b c]
+	plot(
+		Plots.plot(wheel1, xmirror=true),
+		Plots.plot(wheel2, xmirror=true),
+		Plots.plot(wheel3, xmirror=true),
+		layout = plot_layout_abc, size=plot_size_extra_wide)
 end
 
 # ╔═╡ 0d54c4d6-7eb5-11eb-3a1f-d9d02700a379
 md"""Select the input image"""
 
 # ╔═╡ 8db72b7a-7eb3-11eb-3021-bb13087484b5
-@bind image_selection Select(["Philip", "Cell", "Wheel"])
+@bind image_selection Select(["Philip", "Cell", "Wheel1", "Wheel2", "Wheel3"])
 
 # ╔═╡ e9a71740-7eb3-11eb-112e-ddd800caad6a
 begin
@@ -70,8 +85,12 @@ begin
 		input_image = philip
 	elseif image_selection=="Cell"
 		input_image = al_capone_cell
-	elseif image_selection=="Wheel"
-		input_image = perseverance_wheel_turning[:,:,1]
+	elseif image_selection=="Wheel1"
+		input_image = wheel1
+	elseif image_selection=="Wheel2"
+		input_image = wheel2
+	elseif image_selection=="Wheel3"
+		input_image = wheel3
 	end
 	imresize(input_image, ratio=1/8)
 end
@@ -93,9 +112,6 @@ begin
 	end
 end
 
-# ╔═╡ 45e650fa-7eb3-11eb-3dd6-6fa694b5474b
-
-
 # ╔═╡ 45c7bd36-7eb3-11eb-3049-df6962c27fbb
 
 
@@ -107,17 +123,17 @@ end
 
 # ╔═╡ Cell order:
 # ╠═c6535bfa-7e56-11eb-2789-3b009c1d09de
-# ╠═72e3b378-7e58-11eb-3e49-3db713096a4b
+# ╟─8fb3c19c-7f29-11eb-2182-838bb637b692
 # ╟─ee5d052e-7e56-11eb-027b-4fabef79280f
 # ╟─edbc990e-7e56-11eb-0474-9bb39c422857
-# ╟─c24665a0-7e6c-11eb-35c6-5dac55cd350f
+# ╟─dfa85a32-7f29-11eb-15fd-d721f16c91c4
+# ╟─3e5fd976-7f2a-11eb-2de1-a5f4bde52828
 # ╟─0d54c4d6-7eb5-11eb-3a1f-d9d02700a379
 # ╟─8db72b7a-7eb3-11eb-3021-bb13087484b5
 # ╟─e9a71740-7eb3-11eb-112e-ddd800caad6a
 # ╟─224fc08c-7eb7-11eb-375e-f35a365f032c
 # ╟─3c105608-7eb7-11eb-1a65-451f61b828d6
 # ╟─3af4d654-7eb7-11eb-3c5a-395b608ab707
-# ╠═45e650fa-7eb3-11eb-3dd6-6fa694b5474b
 # ╠═45c7bd36-7eb3-11eb-3049-df6962c27fbb
 # ╠═45aa6cd4-7eb3-11eb-1429-2bae4fa7a60c
 # ╠═45900ae2-7eb3-11eb-0c54-efc2af3537f4
